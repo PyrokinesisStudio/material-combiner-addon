@@ -26,7 +26,7 @@ material-combiner-addon
 
 
 ## INSTALLATION:
-1. Download an addon: [Material-combiner](https://github.com/Grim-es/material-combiner-addon/archive/master.zip)
+1. Download an addon: [Material-combiner](https://github.com/Grim-es/material-combiner-addon/archive/mac.zip)
 2. Go to File > User Preferences (Ctrl+Alt+U) > Addons
 3. Click on Install Add-on from File
 4. Choose material-combiner-addon-master.zip archive
