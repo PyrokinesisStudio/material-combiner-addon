@@ -13,8 +13,9 @@ material-combiner-addon
 #### Combining multiple materials:
 1. Generate materials list
 2. Choose materials to combine
-3. Select a folder for combined texture
-4. Combine
+3. Choose ID of combined material, keep 1 to have only one combined material
+4. Select a folder for combined texture
+5. Combine
 #### Generation of textures by UV size:
 1. Generate textures list
 2. Choose textures to generate
@@ -26,7 +27,7 @@ material-combiner-addon
 
 
 ## INSTALLATION:
-1. Download an addon: [Material-combiner](https://github.com/Grim-es/material-combiner-addon/archive/mac.zip)
+1. Download an addon: [Material-combiner](https://github.com/Grim-es/material-combiner-addon/archive/master.zip)
 2. Go to File > User Preferences (Ctrl+Alt+U) > Addons
 3. Click on Install Add-on from File
 4. Choose material-combiner-addon-master.zip archive
@@ -34,9 +35,13 @@ material-combiner-addon
 
 
 ## PREVIEW
-![](http://webgrimes.com/Preview.png)
+![](http://webgrimes.com/Preview.png#)
 
 ## CHANGELOG
+#### 1.1.4
+1. Added combining materials by different IDs to be able to use different shaders but keep use one combined texture
+2. Fixed Save Textures by UVs wrong material selection
+3. Allow to work with multiple models, Hide models which you do not want to change
 #### 1.1.3
 1. Attention message on texture combining
 2. Some description added
