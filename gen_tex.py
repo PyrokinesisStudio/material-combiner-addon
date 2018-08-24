@@ -55,7 +55,7 @@ class GenTex(bpy.types.Operator):
                 mat_len = len(obj.material_slots)
                 mat_info = [[] for x in range(mat_len)]
                 for face in obj.data.polygons:
-                    if face.loop_indices > 0:
+                    if len(face.loop_indices) > 0:
                         face_coords = [obj.data.uv_layers.active.data[loop_idx].uv for loop_idx in face.loop_indices]
                         mat_info[face.material_index].append(face_coords)
                 for index, faces in enumerate(mat_info):
@@ -92,7 +92,6 @@ class GenTex(bpy.types.Operator):
                                     if max_y > 64:
                                         max_y = 1
                                     result = Image.new('RGBA', (w * max_x, h * max_y))
-                                    print(result.size)
                                     for i in range(max_x):
                                         for j in range(max_y):
                                             x = i * w
@@ -104,14 +103,13 @@ class GenTex(bpy.types.Operator):
                                     tex_slot.texture = tex
                                     for face in obj.data.polygons:
                                         if face.material_index == index:
-                                            if face.loop_indices > 0:
+                                            if len(face.loop_indices) > 0:
                                                 face_coords = [obj.data.uv_layers.active.data[loop_idx].uv for loop_idx in
                                                                face.loop_indices]
                                                 for z in face_coords:
                                                     z.x = z.x / max_x
                                                     z.y = z.y / max_y
                                 work.append(True)
-        print(broken_links)
         if not work:
             self.report({'ERROR'}, 'All Selected texture UVs bounds are 0-1')
             return {'FINISHED'}
