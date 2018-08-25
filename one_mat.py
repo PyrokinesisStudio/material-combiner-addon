@@ -86,7 +86,7 @@ class GenMat(bpy.types.Operator):
                             height = 0
                             for face in obj.data.polygons:
                                 if face.material_index == mat_index:
-                                    if face.loop_indices > 0:
+                                    if len(face.loop_indices) > 0:
                                         face_coords = [obj.data.uv_layers.active.data[loop_idx].uv for loop_idx in
                                                        face.loop_indices]
                                         max_width = max([z.x for z in face_coords])
@@ -131,7 +131,10 @@ class GenMat(bpy.types.Operator):
                                         else:
                                             for s_mat, s_path in standard_mats.items():
                                                 if s_path == image_path:
-                                                    copies[s_mat] = mat
+                                                    if s_mat in copies:
+                                                        copies[s_mat].append(mat)
+                                                    else:
+                                                        copies[s_mat] = [mat]
                             else:
                                 diffuse = L(int(mat.diffuse_color.r * 255),
                                             int(mat.diffuse_color.g * 255),
@@ -152,24 +155,22 @@ class GenMat(bpy.types.Operator):
                     if obj.type == 'MESH':
                         if not obj.data.uv_layers.active or obj.hide:
                             continue
-                        for m_mat, c_mat in copies.items():
-                            if m_mat.mat_index == c_mat.mat_index:
-                                if (m_mat.name in obj.data.materials) and (c_mat.name in obj.data.materials):
-                                    if m_mat.name != c_mat.name:
-                                        combined_copies += 1
-                                        to_delete = obj.data.materials.find(c_mat.name)
-                                        for face in obj.data.polygons:
-                                            if face.material_index == to_delete:
-                                                face.material_index = obj.data.materials.find(m_mat.name)
-                                        context.object.active_material_index = to_delete
-                                        bpy.ops.object.material_slot_remove()
+                        for m_mat, cs_mat in copies.items():
+                            for c_mat in cs_mat:
+                                if m_mat.mat_index == c_mat.mat_index:
+                                    if (m_mat.name in obj.data.materials) and (c_mat.name in obj.data.materials):
+                                        if m_mat.name != c_mat.name:
+                                            combined_copies += 1
+                                            to_delete = obj.data.materials.find(c_mat.name)
+                                            for face in obj.data.polygons:
+                                                if face.material_index == to_delete:
+                                                    face.material_index = obj.data.materials.find(m_mat.name)
+                                            context.object.active_material_index = to_delete
+                                            bpy.ops.object.material_slot_remove()
                 if combined_copies > 0:
                     bpy.ops.shotariya.list_actions(action='GENERATE_MAT')
                     bpy.ops.shotariya.list_actions(action='GENERATE_TEX')
                     self.report({'INFO'}, 'Copies were combined')
-                    return {'FINISHED'}
-                else:
-                    self.report({'ERROR'}, 'Nothing to Combine')
                     return {'FINISHED'}
             self.report({'ERROR'}, 'Nothing to Combine')
             return {'FINISHED'}
@@ -242,7 +243,7 @@ class GenMat(bpy.types.Operator):
                             if texture_path == img['path']:
                                 for face in obj.data.polygons:
                                     if face.material_index == i:
-                                        if face.loop_indices > 0:
+                                        if len(face.loop_indices) > 0:
                                             face_coords = [obj.data.uv_layers.active.data[loop_idx].uv for loop_idx in
                                                            face.loop_indices]
                                             for z in face_coords:
@@ -258,7 +259,7 @@ class GenMat(bpy.types.Operator):
                                 if img['path'] == mat.name:
                                     for face in obj.data.polygons:
                                         if face.material_index == i:
-                                            if face.loop_indices > 0:
+                                            if len(face.loop_indices) > 0:
                                                 face_coords = [obj.data.uv_layers.active.data[loop_idx].uv for loop_idx in
                                                                face.loop_indices]
                                                 for z in face_coords:
