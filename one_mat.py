@@ -26,7 +26,7 @@ import os
 import time
 import random
 import pathlib
-from .Packer import Packer
+from . Packer import Packer
 from . PIL import Image
 
 
