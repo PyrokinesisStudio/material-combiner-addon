@@ -23,14 +23,11 @@
 
 import bpy
 import os
-import sys
 import time
 import random
 import pathlib
 from .Packer import Packer
-
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
-from PIL import Image
+from . PIL import Image
 
 
 class L(list):
@@ -57,7 +54,7 @@ class GenMat(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return bpy.context.object.mode == 'OBJECT'
+        return bpy.context.mode == 'OBJECT'
 
     def execute(self, context):
         start_time = time.time()
