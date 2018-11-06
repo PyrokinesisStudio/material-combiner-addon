@@ -27,7 +27,7 @@ import time
 import random
 import pathlib
 from . Packer import Packer
-from . PIL import Image
+from PIL import Image
 
 
 class L(list):
